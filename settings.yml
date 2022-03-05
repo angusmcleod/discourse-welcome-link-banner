@@ -14,11 +14,27 @@ banner_links:
     {"icon":"star","text":"your preferences","url":"/my/preferences"}]
   json_schema: '{ "type": "array", "format": "table", "uniqueItems": true, "items": { "type": "object", "properties": { "icon": { "type": "string", "minLength": 1 }, "text": { "type": "string", "minLength": 1 }, "url": { "type": "string" } }, "additionalProperties": false } }'
 
+second_banner_links:
+  default: >-
+    [{"icon":"info-circle","text":"about this site","url":"/faq"},
+    {"icon":"users","text":"meet our staff","url":"/about"},
+    {"icon":"star","text":"your preferences","url":"/my/preferences"}]
+  json_schema: '{ "type": "array", "format": "table", "uniqueItems": true, "items": { "type": "object", "properties": { "icon": { "type": "string", "minLength": 1 }, "text": { "type": "string", "minLength": 1 }, "url": { "type": "string" } }, "additionalProperties": false } }'
+
 max_trust_level:
   type: integer
   default: 1
   max: 5
   description: Show for this trust level and below; set 5 for all
+
+show_to_guests:
+  default: false
+
+show_to_users:
+  default: true
+
+show_second_banner_to_group:
+  default: ""
 
 hide_for_staff:
   default: false

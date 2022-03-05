@@ -2,17 +2,41 @@ import Component from "@ember/component";
 import discourseComputed from "discourse-common/utils/decorators";
 import { inject as service } from "@ember/service";
 import { computed } from "@ember/object";
+import { not, and, or, alias } from "@ember/object/computed";
 import { defaultHomepage } from "discourse/lib/utilities";
 export default Component.extend({
   router: service(),
 
-  bannerLinks: computed(function () {
-    return JSON.parse(settings.banner_links);
+  bannerLinks: computed("showSecondBanner", function () {
+    if (this.showSecondBanner) {
+      return JSON.parse(settings.second_banner_links);
+    } else {
+      return JSON.parse(settings.banner_links);
+    }
   }),
+
+  showToSubject: or("showToGuest", "showToUser"),
+
+  @discourseComputed("currentUser")
+  showToGuest(currentUser) {
+    return !currentUser && settings.show_to_guests;
+  },
+
+  @discourseComputed("showTrust", "showSecondBanner")
+  showToUser(showTrust, showSecondBanner) {
+    return (showTrust || showSecondBanner) && settings.show_to_users;
+  },
 
   @discourseComputed("currentUser")
   showTrust(currentUser) {
     return currentUser && currentUser.trust_level <= settings.max_trust_level;
+  },
+
+  @discourseComputed("currentUser")
+  showSecondBanner(currentUser) {
+    return currentUser && (currentUser.groups || [])
+      .filter(g => settings.show_second_banner_to_group.includes(g.name))
+      .length > 0;
   },
 
   @discourseComputed("currentUser")

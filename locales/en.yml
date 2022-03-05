@@ -2,3 +2,6 @@ en:
   meta_banner:
     welcome: Welcome to our community!
     subtitle: Join the conversation and please follow <a href="/faq">our guidelines</a>.
+  second_banner:
+    welcome: Congratulations, you have a credential!
+    subtitle: Learn more about what that means.
